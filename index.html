@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="manifest" href="manifest.json">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+        rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор параметров тора</title>
+    <!-- Подключение внешнего CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome для иконок -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.3.0/css/all.css">
+</head>
+<body>
+    <!-- Переключатель темы -->
+    <div class="theme-switcher">
+        <input type="checkbox" id="switcher-input" class="switcher-input" onchange="toggleTheme()">
+        <label class="switcher-label" for="switcher-input">
+            <i class="fas fa-solid fa-moon"></i>
+            <span class="switcher-toggler"></span>
+            <i class="fas fa-solid fa-sun"></i>
+        </label>
+    </div>
+
+    <h1>Калькулятор параметров тора</h1>
+    <div class="calculator">
+        <!-- Ввод данных -->
+        <label for="itemName">Наименование изделия (опционально):</label>
+        <input type="text" id="itemName" placeholder="Введите название">
+
+        <label for="dInner">Внутренний диаметр (мм):</label>
+        <input type="number" id="dInner" value="80" step="0.01" title="Диаметр внутренней окружности тора"
+               placeholder="Введите значение">
+        
+
+        <label for="dOuter">Внешний диаметр (мм):</label>
+        <input type="number" id="dOuter" value="100" step="0.01" title="Диаметр внешней окружности тора"
+               placeholder="Введите значение">
+
+        <label for="lines">Количество витков:</label>
+        <input type="number" id="lines" value="25" min="1" title="Количество витков для намотки"
+               placeholder="Введите значение">
+
+        <label for="k">Коэффициент (k):</label>
+        <input type="number" id="k" value="0.07" step="0.01" title="Коэффициент пропорциональности"
+               placeholder="Введите значение">
+
+        <label for="height">Высота тора (мм):</label>
+        <input type="number" id="height" value="50" step="0.01" title="Высота тора"
+               placeholder="Введите значение">
+
+        <button onclick="calculate()">Рассчитать</button>
+        <button onclick="clearFields()">Очистить</button>
+
+        <!-- Результаты -->
+        <div class="result">
+            <p>Значение для программы (внутр.): <span id="valueInner"></span> ед.</p>
+            <p>Расстояние между витками (внутр.): <span id="distanceInner"></span> мм</p>
+        </div>
+
+        <!-- История расчетов -->
+        <h2>История расчетов</h2>
+        <ul id="history"></ul>
+    </div>
+
+    <!-- Прогресс-индикатор -->
+    <div id="loading" style="display: none; text-align: center; margin-bottom: 10px;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Загрузка..." width="30">
+    </div>
+
+    <script>/*подключение внешнего сервис воркера*/
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js');
+        });
+    }
+</script>
+    
+    <!-- Подключение внешнего JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

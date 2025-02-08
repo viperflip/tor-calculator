@@ -1,0 +1,219 @@
+/* Общие стили */
+body {
+    font-family: Montserrat, sans-serif;
+    font-weight: 300; /* Обычное начертание */
+    margin: 20px;
+    padding: 20px;
+    transition: background-color 0.3s, color 0.3s;
+    position: relative; /* Для позиционирования переключателя */
+}
+
+h1 {
+    font-family: 'Montserrat', serif;
+    font-weight: 800; /* Полужирное начертание */
+    font-size: 30px;
+    text-align: center;
+    color: inherit;
+}
+
+.calculator {
+    font-size: 15px;
+    max-width: 400px;
+    margin: 0 auto;
+    background: inherit;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+label {
+    font-family: 'Ubuntu', monospace;
+    font-weight: 600; /* Обычное начертание */
+    font-size: 15px;
+    display: block;
+    margin-bottom: 2px;
+}
+
+input[type="number"], input[type="text"] {
+    width: 95%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    background-color: #29a847; /* Измененный цвет кнопки */
+    color: white;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+button:hover {
+    filter: brightness(0.9);
+}
+
+.result {
+    font-family: 'Ubuntu', monospace;
+    font-weight: 700; /* Обычное начертание */
+    font-size: 20px;
+    margin-top: 20px;
+    color: inherit;
+}
+
+.result span {
+    font-weight: bold;
+    color: #28a745;
+}
+
+/* Блок истории расчетов */
+#history {
+    list-style-type: none;
+    padding: 0;
+}
+
+#history li {
+    font-family: 'Ubuntu', monospace;
+    font-weight: 400; /* Обычное начертание */
+    font-size: 14px;
+    background: rgba(241, 241, 241, 0); /*прозрачный фон*/
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Темная тема */
+body.dark-mode,
+.calculator.dark-mode {
+    background-color: #2b2b2b;
+    color: #f1f1f1;
+}
+
+button.dark-mode {
+    background-color: #3c3c3c;
+    color: #f1f1f1;
+}
+
+/* Стили для истории в темной теме */
+#history.dark-mode li {
+    background: #333333; /* Темный фон для элементов истории */
+    color: #f1f1f1; /* Белый текст */
+}
+
+/* Медиа-запросы для адаптации под разные экраны */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    .calculator {
+        padding: 15px;
+    }
+    input[type="number"], input[type="text"], button {
+        font-size: 14px;
+        padding: 6px;
+    }
+    .result {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 400px) {
+    .calculator {
+        max-width: 100%;
+    }
+    input[type="number"], input[type="text"], button {
+        font-size: 12px;
+        padding: 5px;
+    }
+    .result {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 320px) {
+    .calculator {
+        padding: 10px;
+    }
+    input[type="number"], input[type="text"], button {
+        font-size: 10px;
+        padding: 4px;
+    }
+    .result {
+        font-size: 10px;
+    }
+}
+
+/* Стили для нового переключателя темы */
+.theme-switcher {
+    position: absolute;
+    top: 10px; /* Отступ сверху */
+    left: 10px; /* Отступ слева */
+}
+
+.switcher-input {
+    display: none;
+}
+
+.switcher-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 40px; /* Уменьшенный размер */
+    height: 20px; /* Уменьшенный размер */
+    background-color: #ccc;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    position: relative;
+}
+
+.switcher-toggler {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px; /* Уменьшенный размер маркера */
+    height: 16px; /* Уменьшенный размер маркера */
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.3s;
+}
+
+.switcher-input:checked + .switcher-label {
+    background-color: #28a745;
+}
+
+.switcher-input:checked + .switcher-label .switcher-toggler {
+    transform: translateX(20px); /* Перемещение маркера */
+}
+
+.switcher-label i {
+    font-size: 12px; /* Уменьшенный размер иконок */
+    color: white;
+    margin: 0 4px;
+}
+
+.switcher-input:checked + .switcher-label i.fa-moon {
+    opacity: 1;
+}
+
+.switcher-input:checked + .switcher-label i.fa-sun {
+    opacity: 0;
+}
+
+.switcher-label i.fa-moon {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.switcher-label i.fa-sun {
+    opacity: 1;
+    transition: opacity 0.3s;
+}
