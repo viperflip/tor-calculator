@@ -1,6 +1,6 @@
 /* Общие стили */
 body {
-    font-family: Montserrat, sans-serif;
+    font-family: 'Ubuntu', monospace;
     font-weight: 300; /* Обычное начертание */
     margin: 20px;
     padding: 20px;
@@ -9,7 +9,7 @@ body {
 }
 
 h1 {
-    font-family: 'Montserrat', serif;
+    font-family: 'Ubuntu', monospace;
     font-weight: 800; /* Полужирное начертание */
     font-size: 30px;
     text-align: center;
@@ -216,4 +216,28 @@ button.dark-mode {
 .switcher-label i.fa-sun {
     opacity: 1;
     transition: opacity 0.3s;
+}
+
+/* Стили для футера */
+footer {
+    font-family: 'Ubuntu', monospace;
+    font-size: 12px; /* Размер текста */
+    color: #ffffff; /* Цвет текста */
+    opacity: 1; /* Прозрачность текста */
+    background-color: rgba(41, 168, 71, 0.38); /* Зеленый полупрозрачный фон */
+    padding: 10px;
+    text-align: center;
+    position: fixed; /* Футер всегда внизу страницы */
+    bottom: 0;
+    left: 0; /* Убираем отступ слева */
+    width: 100%;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2); /* Тень сверху */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Темная тема для футера */
+footer.dark-mode {
+    background-color: rgba(51, 51, 51, 0.8); /* Темный полупрозрачный фон */
+    color: #f1f1f1; /* Белый текст */
+    opacity: 1; /* Без прозрачности в темной теме */
 }
