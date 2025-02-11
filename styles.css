@@ -11,7 +11,7 @@ body {
 h1 {
     font-family: 'Ubuntu', monospace;
     font-weight: 800; /* Полужирное начертание */
-    font-size: 30px;
+    font-size: 20px;
     text-align: center;
     color: inherit;
 }
@@ -51,7 +51,7 @@ button {
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-    background-color: #29a847; /* Измененный цвет кнопки */
+    background-color: rgb(55, 112, 180); /* Измененный цвет кнопки */
     color: white;
     transition: background-color 0.3s, color 0.3s;
 }
@@ -168,7 +168,7 @@ button.dark-mode {
     justify-content: space-between;
     width: 40px; /* Уменьшенный размер */
     height: 20px; /* Уменьшенный размер */
-    background-color: #ccc;
+    background-color: #dbdbdb;
     border-radius: 15px;
     cursor: pointer;
     transition: background-color 0.3s;
@@ -181,13 +181,13 @@ button.dark-mode {
     left: 2px;
     width: 16px; /* Уменьшенный размер маркера */
     height: 16px; /* Уменьшенный размер маркера */
-    background-color: white;
+    background-color: #ffffff;
     border-radius: 50%;
     transition: transform 0.3s;
 }
 
 .switcher-input:checked + .switcher-label {
-    background-color: #28a745;
+    background-color: rgb(55, 112, 180);
 }
 
 .switcher-input:checked + .switcher-label .switcher-toggler {
@@ -196,7 +196,7 @@ button.dark-mode {
 
 .switcher-label i {
     font-size: 12px; /* Уменьшенный размер иконок */
-    color: white;
+    color: #ffffff;
     margin: 0 4px;
 }
 
@@ -222,22 +222,20 @@ button.dark-mode {
 footer {
     font-family: 'Ubuntu', monospace;
     font-size: 12px; /* Размер текста */
-    color: #ffffff; /* Цвет текста */
-    opacity: 1; /* Прозрачность текста */
-    background-color: rgba(41, 168, 71, 0.38); /* Зеленый полупрозрачный фон */
-    padding: 10px;
+    color: #afafaf; /* Цвет текста */
+    opacity: 1; /*Прозрачность текста */
+    /*background-color: rgba(41, 168, 71, 0.38); /* Зеленый полупрозрачный фон */
+    /*padding: 10px;
     text-align: center;
     position: fixed; /* Футер всегда внизу страницы */
     bottom: 0;
     left: 0; /* Убираем отступ слева */
     width: 100%;
-    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2); /* Тень сверху */
-    transition: background-color 0.3s, color 0.3s;
 }
 
 /* Темная тема для футера */
-footer.dark-mode {
-    background-color: rgba(51, 51, 51, 0.8); /* Темный полупрозрачный фон */
-    color: #f1f1f1; /* Белый текст */
-    opacity: 1; /* Без прозрачности в темной теме */
-}
+/*footer.dark-mode {
+    background-color: rgba(123, 123, 123, 0.8); /* Темный полупрозрачный фон */
+    /*color: #d6d6d6; /* Белый текст */
+    /*opacity: 1; /* Без прозрачности в темной теме */
+/*}
