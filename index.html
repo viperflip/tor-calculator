@@ -27,7 +27,6 @@
             <i class="fas fa-solid fa-sun"></i>
         </label>
     </div>
-
     <h1>Калькулятор параметров тора</h1>
     <div class="calculator">
         <!-- Ввод данных -->
@@ -37,7 +36,6 @@
         <label for="dInner">Внутренний диаметр (мм):</label>
         <input type="number" id="dInner" value="80" step="0.01" title="Диаметр внутренней окружности тора"
                placeholder="Введите значение">
-        
 
         <label for="dOuter">Внешний диаметр (мм):</label>
         <input type="number" id="dOuter" value="100" step="0.01" title="Диаметр внешней окружности тора"
@@ -47,7 +45,7 @@
         <input type="number" id="lines" value="25" min="1" title="Количество витков для намотки"
                placeholder="Введите значение">
 
-        <label for="k">Коэффициент (k):</label>
+        <label for="k">Коэффициент:</label>
         <input type="number" id="k" value="0.07" step="0.01" title="Коэффициент пропорциональности"
                placeholder="Введите значение">
 
@@ -59,6 +57,11 @@
         <input type="number" id="wireDiameter" value="1" step="0.01" title="Диаметр провода"
                placeholder="Введите значение">
 
+        <!-- Новое поле для расчетных витков на один оборот лотка -->
+        <label for="lotkaVitki">Расчетные витки на один оборот лотка:</label>
+        <input type="number" id="lotkaVitki" value="1" min="1" step="0.01" title="Количество витков на один оборот лотка"
+               placeholder="Введите значение">
+
         <button onclick="calculate()">Рассчитать</button>
         <button onclick="clearFields()">Очистить</button>
 
@@ -66,10 +69,11 @@
         <div class="result">
             <p>Значение для программы (внутр.): <span id="valueInner"></span> ед.</p>
             <p>Расстояние между витками (внутр.): <span id="distanceInner"></span> мм</p>
-            <p>Общая длина провода: <span id="wireLength"></span> м</p>
+            <p>Общая длина провода: ≈ <span id="wireLength"></span> м</p>
+            <p>Количество провода для станка: <span id="stationWireCount"></span></p>
         </div>
-
         <div class="error" id="error" style="color: red; margin-top: 10px;"></div>
+
         <!-- История расчетов -->
         <h2>История расчетов</h2>
         <ul id="history"></ul>
@@ -80,17 +84,19 @@
         <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Загрузка..." width="30">
     </div>
 
-    <script>/*подключение внешнего сервис воркера*/
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/service-worker.js');
-        });
-    }
-</script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js');
+            });
+        }
+    </script>
+
     <!-- Футер -->
-<footer id="app-footer" style="text-align: center; margin-top: 20px;">
-    <p>Калькулятор параметров тора v1.2.0</p>
-</footer>
+    <footer id="app-footer" style="text-align: center; margin-top: 20px;">
+        <p>Калькулятор параметров тора v1.3.0</p>
+    </footer>
+
     <!-- Подключение внешнего JavaScript -->
     <script src="script.js"></script>
 </body>

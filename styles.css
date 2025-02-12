@@ -17,7 +17,7 @@ h1 {
 }
 
 .calculator {
-    font-size: 15px;
+    font-size: 12px;
     max-width: 400px;
     margin: 0 auto;
     background: inherit;
@@ -154,8 +154,8 @@ button.dark-mode {
 /* Стили для нового переключателя темы */
 .theme-switcher {
     position: absolute;
-    top: 10px; /* Отступ сверху */
-    left: 10px; /* Отступ слева */
+    top: -3px; /* Отступ сверху */
+    left: 29px; /* Отступ слева */
 }
 
 .switcher-input {

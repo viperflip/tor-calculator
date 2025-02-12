@@ -1,10 +1,29 @@
+// Сохраняем ссылки на элементы
+const elements = {
+    dInner: document.getElementById("dInner"),
+    dOuter: document.getElementById("dOuter"),
+    lines: document.getElementById("lines"),
+    k: document.getElementById("k"),
+    height: document.getElementById("height"),
+    wireDiameter: document.getElementById("wireDiameter"),
+    lotkaVitki: document.getElementById("lotkaVitki"), // Новое поле
+    itemName: document.getElementById("itemName"),
+    valueInner: document.getElementById("valueInner"),
+    distanceInner: document.getElementById("distanceInner"),
+    wireLength: document.getElementById("wireLength"),
+    stationWireCount: document.getElementById("stationWireCount"), // Новый результат
+    error: document.getElementById("error"),
+    history: document.getElementById("history"),
+    loading: document.getElementById("loading")
+};
+
 // Локальное сохранение темы
 function toggleTheme() {
     const isDarkMode = document.getElementById("switcher-input").checked;
     document.body.classList.toggle("dark-mode", isDarkMode);
     document.querySelector(".calculator").classList.toggle("dark-mode", isDarkMode);
-    document.getElementById("history").classList.toggle("dark-mode", isDarkMode); // Применяем темную тему к истории
-    localStorage.setItem("darkMode", isDarkMode); // Сохраняем состояние
+    document.getElementById("history").classList.toggle("dark-mode", isDarkMode);
+    localStorage.setItem("darkMode", isDarkMode);
 }
 
 // Загрузка сохраненной темы при загрузке страницы
@@ -16,117 +35,118 @@ window.onload = () => {
     }
 };
 
-// Валидация входных данных
-function validateInputs() {
-    const dInner = parseFloat(document.getElementById("dInner").value);
-    const dOuter = parseFloat(document.getElementById("dOuter").value);
-    const lines = parseFloat(document.getElementById("lines").value);
-    const k = parseFloat(document.getElementById("k").value);
-    const height = parseFloat(document.getElementById("height").value);
-    const wireDiameter = parseFloat(document.getElementById("wireDiameter").value);
-
-    if (isNaN(dInner) || dInner <= 0) {
-        alert("Внутренний диаметр должен быть положительным числом.");
-        return false;
-    }
-    if (isNaN(dOuter) || dOuter <= 0) {
-        alert("Внешний диаметр должен быть положительным числом.");
-        return false;
-    }
-    if (isNaN(lines) || lines <= 0) {
-        alert("Количество витков должно быть положительным числом.");
-        return false;
-    }
-    if (isNaN(k) || k <= 0) {
-        alert("Коэффициент (k) должен быть положительным числом.");
-        return false;
-    }
-    if (isNaN(height) || height <= 0) {
-        alert("Высота тора должна быть положительным числом.");
-        return false;
-    }
-    if (isNaN(wireDiameter) || wireDiameter <= 0) {
-        alert("Диаметр провода должен быть положительным числом.");
-        return false;
-    }
-    if (dInner >= dOuter) {
-        alert("Внешний диаметр должен быть больше внутреннего.");
+// Общая функция для валидации числовых полей
+function validateNumberField(fieldId, fieldName, minValue = 0) {
+    const value = parseFloat(elements[fieldId].value);
+    if (isNaN(value) || value <= minValue) {
+        alert(`${fieldName} должен быть положительным числом.`);
         return false;
     }
     return true;
 }
 
+// Валидация входных данных
+function validateInputs() {
+    if (!validateNumberField("dInner", "Внутренний диаметр")) return false;
+    if (!validateNumberField("dOuter", "Внешний диаметр")) return false;
+    if (!validateNumberField("lines", "Количество витков")) return false;
+    if (!validateNumberField("k", "Коэффициент (k)")) return false;
+    if (!validateNumberField("height", "Высота тора")) return false;
+    if (!validateNumberField("wireDiameter", "Диаметр провода")) return false;
+    if (!validateNumberField("lotkaVitki", "Расчетные витки на один оборот лотка", 0.0001)) return false;
+
+    if (parseFloat(elements.dInner.value) >= parseFloat(elements.dOuter.value)) {
+        alert("Внешний диаметр должен быть больше внутреннего.");
+        return false;
+    }
+
+    return true;
+}
+
 // Расчет базовых параметров тора
 function calculateBasicParams() {
-    const dInner = parseFloat(document.getElementById("dInner").value) || 80;
-    const lines = parseFloat(document.getElementById("lines").value) || 25;
-    const k = parseFloat(document.getElementById("k").value) || 0.07;
+    const dInner = parseFloat(elements.dInner.value) || 80;
+    const lines = parseFloat(elements.lines.value) || 25;
+    const k = parseFloat(elements.k.value) || 0.07;
 
     const intervalInner = (Math.PI * dInner) / lines;
     const valueInner = intervalInner / k;
 
-    document.getElementById("valueInner").innerText = valueInner.toFixed(2);
-    document.getElementById("distanceInner").innerText = intervalInner.toFixed(2);
+    elements.valueInner.innerText = valueInner.toFixed(2);
+    elements.distanceInner.innerText = intervalInner.toFixed(2);
 
     return { valueInner, intervalInner };
 }
 
 // Расчет длины провода
 function calculateWireLength() {
-    const dInner = parseFloat(document.getElementById("dInner").value);
-    const dOuter = parseFloat(document.getElementById("dOuter").value);
-    const N = parseFloat(document.getElementById("lines").value);
-    const H = parseFloat(document.getElementById("height").value);
-    const dпровод = parseFloat(document.getElementById("wireDiameter").value);
+    const dOuter = parseFloat(elements.dOuter.value);
+    const dInner = parseFloat(elements.dInner.value);
+    const H = parseFloat(elements.height.value);
+    const N = parseFloat(elements.lines.value);
 
     if (
-        isNaN(dInner) || isNaN(dOuter) || isNaN(N) || isNaN(H) || isNaN(dпровод) ||
-        dInner >= dOuter || H <= 0 || N <= 0 || dпровод <= 0
+        isNaN(dOuter) || isNaN(dInner) || isNaN(H) || isNaN(N) ||
+        dOuter <= dInner || H <= 0 || N <= 0
     ) {
-        document.getElementById("error").textContent = "Пожалуйста, проверьте введенные данные.";
+        elements.error.textContent = "Пожалуйста, проверьте введенные данные.";
         return null;
     }
 
-    const Dсред = (dInner + dOuter) / 2; // Средний диаметр тора
-    const Nслой = Math.floor(H / dпровод); // Количество витков в одном слое
-    const Kслоев = Math.ceil(N / Nслой); // Количество слоев
+    const Lvitka = 2 * (dOuter - dInner) + 2 * H;
+    const Lobsch = N * Lvitka;
+    const LobschMeters = Lobsch / 1000;
 
-    const kплотн = 0.21; // Коэффициент плотности намотки
-    const Lвитка = Math.PI * (Dсред + ((Kслоев - 1) * dпровод) / 2); // Средняя длина одного витка
-    const Lобщ = kплотн * N * Lвитка; // Общая длина провода
-    const LобщМетры = Lобщ / 1000; // Перевод в метры
+    elements.wireLength.textContent = `${LobschMeters.toFixed(2)}`;
+    return LobschMeters;
+}
 
-    document.getElementById("wireLength").textContent = LобщМетры.toFixed(2);
-    return LобщМетры;
+// Расчет количества провода для станка
+function calculateStationWireCount() {
+    const lines = parseFloat(elements.lines.value);
+    const lotkaVitki = parseFloat(elements.lotkaVitki.value);
+
+    if (isNaN(lines) || isNaN(lotkaVitki) || lotkaVitki === 0) {
+        elements.error.textContent = "Пожалуйста, проверьте введенные данные.";
+        return null;
+    }
+
+    // Новая формула: (lines / lotkaVitki) * 800
+    const stationWireCount = ((lines / lotkaVitki) * 800).toFixed(2);
+    elements.stationWireCount.textContent = stationWireCount;
+    return stationWireCount;
 }
 
 // Основная функция расчета
 function calculate() {
     if (!validateInputs()) return;
 
-    const loading = document.getElementById("loading");
+    const loading = elements.loading;
     loading.style.display = "block";
 
     setTimeout(() => {
         try {
-            const basicParams = calculateBasicParams(); // Базовые параметры
-            const wireLength = calculateWireLength(); // Расчет длины провода
+            const basicParams = calculateBasicParams();
+            const wireLength = calculateWireLength();
+            const stationWireCount = calculateStationWireCount();
 
-            if (basicParams && wireLength !== null) {
-                saveToHistory(basicParams, wireLength); // Сохраняем историю
+            if (basicParams && wireLength !== null && stationWireCount !== null) {
+                saveToHistory(basicParams, wireLength, stationWireCount);
             }
         } catch (error) {
             alert("Произошла ошибка при расчете. Проверьте введенные данные.");
         } finally {
-            loading.style.display = "none"; // Скрываем индикатор загрузки
+            loading.style.display = "none";
         }
     }, 500);
 }
 
 // Сохранение истории расчетов
-function saveToHistory(basicParams, wireLength) {
-    const itemName = document.getElementById("itemName").value || "Результат";
-    const height = parseFloat(document.getElementById("height").value) || 50;
+function saveToHistory(basicParams, wireLength, stationWireCount) {
+    if (!basicParams || wireLength === null || stationWireCount === null) return;
+
+    const itemName = elements.itemName.value || "Результат";
+    const height = parseFloat(elements.height.value) || 50;
 
     const historyItem = `
         <li>
@@ -134,29 +154,31 @@ function saveToHistory(basicParams, wireLength) {
             Значение для программы (внутр.): ${basicParams.valueInner.toFixed(2)} ед.<br>
             Расстояние между линиями (внутр.): ${basicParams.intervalInner.toFixed(2)} мм<br>
             Высота тора: ${height.toFixed(2)} мм<br>
-            Общая длина провода: ${wireLength.toFixed(2)} м
+            Внешний диаметр: ${parseFloat(elements.dOuter.value).toFixed(2)} мм<br>
+            Внутренний диаметр: ${parseFloat(elements.dInner.value).toFixed(2)} мм<br>
+            Общая длина провода: ${wireLength.toFixed(2)}<br>
+            Количество провода для станка: ${stationWireCount}
         </li>
     `;
-
-    const historyList = document.getElementById("history");
-    historyList.innerHTML += historyItem;
+    elements.history.innerHTML += historyItem;
 }
 
 // Очистка полей
 function clearFields() {
-    document.getElementById("dInner").value = "";
-    document.getElementById("dOuter").value = "";
-    document.getElementById("lines").value = "";
-    document.getElementById("height").value = "";
-    document.getElementById("itemName").value = "";
-    document.getElementById("wireDiameter").value = "";
+    elements.dInner.value = "";
+    elements.dOuter.value = "";
+    elements.lines.value = "";
+    elements.height.value = "";
+    elements.itemName.value = "";
+    elements.wireDiameter.value = "";
+    elements.lotkaVitki.value = ""; // Очищаем новое поле
+    elements.valueInner.innerText = "";
+    elements.distanceInner.innerText = "";
+    elements.wireLength.innerText = "";
+    elements.stationWireCount.innerText = ""; // Очищаем новый результат
+    elements.error.textContent = "";
+    elements.history.innerHTML = "";
 
-    document.getElementById("valueInner").innerText = "";
-    document.getElementById("distanceInner").innerText = "";
-    document.getElementById("wireLength").innerText = "";
-    document.getElementById("error").textContent = "";
-    document.getElementById("history").innerHTML = "";
-
-    const kInput = document.getElementById("k");
-    kInput.value = kInput.value || 0.07; // Сохраняем значение коэффициента (k)
+    const kInput = elements.k;
+    kInput.value = kInput.value || 0.07;
 }
