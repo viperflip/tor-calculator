@@ -1,13 +1,13 @@
 {
     "name": "Калькулятор параметров тора",
     "short_name": "Torus Calc",
-    "start_url": "/index.html",
+    "start_url": "/", // Корневой путь
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#29a847",
     "icons": [
         {
-            "src": "icon.png",
+            "src": "/icon.png", // Корневой путь
             "sizes": "192x192",
             "type": "image/png"
         }
